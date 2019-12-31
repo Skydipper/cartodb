@@ -1,8 +1,8 @@
 cd /cartodb
 
 bundle exec  rake cartodb:db:create_user --trace SUBDOMAIN="geocoder" \
-	PASSWORD="pass1234" ADMIN_PASSWORD="pass1234" \
-	EMAIL="geocoder@contoso.com"
+	PASSWORD="$PASSWORD" ADMIN_PASSWORD="$PASSWORD" \
+	EMAIL="$USEREMAIL"
 
 # # Update your quota to 100GB
 echo "--- Updating quota to 100GB"

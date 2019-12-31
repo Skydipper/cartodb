@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cartodb
+spec:
+  selector:
+    matchLabels:
+      name: cartodb
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      annotations:
+        chaos.alpha.kubernetes.io/enabled: "true"
+      labels:
+        name: cartodb
+    spec:
+      containers:
+        - name: {name}
+          image: vizzuality/{name}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: HOSTNAME
+              value: '104.199.78.184'
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mssecrets
+                  key: CARTODB_USERNAME
+            - name: PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: mssecrets
+                    key: CARTODB_PASSWORD
+            - name: USEREMAIL
+                valueFrom:
+                  secretKeyRef:
+                    name: mssecrets
+                    key: CARTODB_USEREMAIL
+      restartPolicy: Always
