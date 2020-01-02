@@ -1,7 +1,7 @@
 ORGANIZATION_NAME="skydipper"
-USERNAME="$USERNAME"
-EMAIL="$USEREMAIL"
-PASSWORD="$PASSWORD"
+USERNAME="$CARTO_USERNAME"
+EMAIL="$CARTO_USEREMAIL"
+PASSWORD="$CARTO_PASSWORD"
 
 bundle exec rake cartodb:db:create_user EMAIL="${EMAIL}" PASSWORD="${PASSWORD}" SUBDOMAIN="${USERNAME}"
 bundle exec rake cartodb:db:set_unlimited_table_quota["${USERNAME}"]
