@@ -20,6 +20,9 @@ node {
   def tokens = "${env.JOB_NAME}".tokenize('/')
   def appName = tokens[0]
   def dockerUsername = "${DOCKER_USERNAME}"
+  def cartoUsername = "${CARTO_USERNAME}"
+  def cartoPassword = "${CARTO_PASSWORD}"
+  def cartoUseremail = "${CARTO_USEREMAIL}"
   def imageTag = "${dockerUsername}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
 
   currentBuild.result = "SUCCESS"
@@ -30,8 +33,8 @@ node {
   try {
 
     stage ('Build docker') {
-      sh("docker -H :2375 build --build-arg CARTO_USERNAME=${CARTO_USERNAME} --build-arg CARTO_PASSWORD=${CARTO_PASSWORD} --build-arg CARTO_USEREMAIL=${CARTO_USEREMAIL} -t ${imageTag} .")
-      sh("docker -H :2375 build --build-arg CARTO_USERNAME=${CARTO_USERNAME} --build-arg CARTO_PASSWORD=${CARTO_PASSWORD} --build-arg CARTO_USEREMAIL=${CARTO_USEREMAIL} -t ${dockerUsername}/${appName}:latest .")
+      sh("docker -H :2375 build --build-arg CARTO_USERNAME=${cartoUsername} --build-arg CARTO_PASSWORD=${cartoPassword} --build-arg CARTO_USEREMAIL=${cartoUseremail} -t ${imageTag} .")
+      sh("docker -H :2375 build --build-arg CARTO_USERNAME=${cartoUsername} --build-arg CARTO_PASSWORD=${cartoPassword} --build-arg CARTO_USEREMAIL=${cartoUseremail} -t ${dockerUsername}/${appName}:latest .")
     }
 
     stage('Push Docker') {
