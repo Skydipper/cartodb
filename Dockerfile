@@ -31,6 +31,10 @@ ENV DATAERVICESAPI_VERSION=master
 #ENV OBSERVATORY_VERSION=1.9.0
 ENV OBSERVATORY_VERSION=master
 
+ENV CARTO_USERNAME=$CARTO_USERNAME
+ENV CARTO_USEREMAIL=$CARTO_USEREMAIL
+ENV CARTO_PASSWORD=$CARTO_PASSWORD
+
 RUN useradd -m -d /home/cartodb -s /bin/bash cartodb && \
   apt-get install -y -q \
     build-essential \
