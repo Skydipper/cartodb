@@ -30,14 +30,12 @@ node {
   try {
 
     stage ('Build docker') {
-      sh("docker -H :2375 build --build-arg CARTO_USERNAME=${CARTO_USERNAME} --build-arg CARTO_PASSWORD=${CARTO_PASSWORD} --build-arg CARTO_USEREMAIL=${CARTO_USEREMAIL} -t ${imageTag} .")
       sh("docker -H :2375 build --build-arg CARTO_USERNAME=${CARTO_USERNAME} --build-arg CARTO_PASSWORD=${CARTO_PASSWORD} --build-arg CARTO_USEREMAIL=${CARTO_USEREMAIL} -t ${dockerUsername}/${appName}:latest .")
     }
 
     stage('Push Docker') {
       withCredentials([usernamePassword(credentialsId: 'Skydipper Docker Hub', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
         sh("docker -H :2375 login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}")
-        sh("docker -H :2375 push ${imageTag}")
         sh("docker -H :2375 push ${dockerUsername}/${appName}:latest")
         sh("docker -H :2375 rmi ${imageTag}")
       }
