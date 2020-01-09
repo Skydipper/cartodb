@@ -16,26 +16,11 @@ spec:
     spec:
       containers:
       - name: {name}
-        image: vizzuality/{name}
+        image: skydipper/{name}
         imagePullPolicy: Always
         ports:
           - containerPort: 80
         env:
           - name: HOSTNAME
-            value: '104.199.78.184'
-          - name: USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: mssecrets
-                key: CARTODB_USERNAME
-          - name: PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mssecrets
-                key: CARTODB_PASSWORD
-          - name: USEREMAIL
-            valueFrom:
-              secretKeyRef:
-                name: mssecrets
-                key: CARTODB_USEREMAIL
+            value: '35.233.41.65'
       restartPolicy: Always
