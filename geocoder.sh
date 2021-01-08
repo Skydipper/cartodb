@@ -1,8 +1,10 @@
 cd /cartodb
 
 bundle exec  rake cartodb:db:create_user --trace SUBDOMAIN="geocoder" \
-	PASSWORD="$CARTO_PASSWORD" ADMIN_PASSWORD="$CARTO_PASSWORD" \
-	EMAIL="geocoder$CARTO_USEREMAIL"
+	PASSWORD="$CARTO_PASSWORD" \
+	ADMIN_PASSWORD="$CARTO_PASSWORD" \
+	EMAIL="geocoder$CARTO_USEREMAIL" \
+	ORGANIZATION="$ORGANIZATION"
 
 # # Update your quota to 100GB
 echo "--- Updating quota to 100GB"
@@ -30,11 +32,11 @@ USER_DB=`echo "SELECT database_name FROM users WHERE username='$CARTO_USERNAME'"
 echo "CREATE EXTENSION cdb_dataservices_client;" | psql -U postgres $USER_DB
 echo "SELECT CDB_Conf_SetConf('user_config', '{"'"is_organization"'": false, "'"entity_name"'": "'"dev"'"}');" | psql -U postgres $USER_DB
 echo -e "SELECT CDB_Conf_SetConf('geocoder_server_config', '{ \"connection_str\": \"host=localhost port=5432 dbname=${GEOCODER_DB# } user=postgres\"}');" | psql -U postgres $USER_DB
-bundle exec  rake cartodb:services:set_user_quota['skydipper',geocoding,100000]
+bundle exec  rake cartodb:services:set_user_quota[$CARTO_USERNAME,geocoding,100000]
 
 # example organization
-ORGANIZATION_DB=`echo "SELECT database_name FROM users WHERE username='$CARTO_USERNAME'" | psql -A -U postgres -t carto_db_development`
+ORGANIZATION_DB=`echo "SELECT database_name FROM users WHERE username='admin$CARTO_USERNAME'" | psql -A -U postgres -t carto_db_development`
 echo "CREATE EXTENSION cdb_dataservices_client;" | psql -U postgres $ORGANIZATION_DB
-echo "SELECT CDB_Conf_SetConf('user_config', '{"'"is_organization"'": true, "'"entity_name"'": "'"example"'"}');" | psql -U postgres $ORGANIZATION_DB
+echo "SELECT CDB_Conf_SetConf('user_config', '{"'"is_organization"'": true, "'"entity_name"'": "'"$ORGANIZATION"'"}');" | psql -U postgres $ORGANIZATION_DB
 echo -e "SELECT CDB_Conf_SetConf('geocoder_server_config', '{ \"connection_str\": \"host=localhost port=5432 dbname=${GEOCODER_DB# } user=postgres\"}');" | psql -U postgres $ORGANIZATION_DB
-bundle exec  rake cartodb:services:set_user_quota['skydipper',geocoding,100000]
+bundle exec  rake cartodb:services:set_user_quota[admin$CARTO_USERNAME,geocoding,100000]

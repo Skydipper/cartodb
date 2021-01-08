@@ -17,7 +17,7 @@ ENV LC_ALL en_US.UTF-8
 #ENV CARTODB_VERSION=v4.12.9
 #ENV CARTODB_VERSION=v4.12.26
 #ENV CARTODB_VERSION=v4.12.30
-ENV CARTODB_VERSION=master
+ENV CARTODB_VERSION=v4.42.0
 #ENV SQLAPI_VERSION=1.47.2
 ENV SQLAPI_VERSION=master
 #ENV CRANKSHAFT_VERSION=0.8.1
@@ -34,10 +34,12 @@ ENV OBSERVATORY_VERSION=master
 ARG CARTO_USERNAME
 ARG CARTO_USEREMAIL
 ARG CARTO_PASSWORD
+ARG ORGANIZATION
 
 ENV CARTO_USERNAME=$CARTO_USERNAME
 ENV CARTO_USEREMAIL=$CARTO_USEREMAIL
 ENV CARTO_PASSWORD=$CARTO_PASSWORD
+ENV ORGANIZATION=$ORGANIZATION
 
 RUN useradd -m -d /home/cartodb -s /bin/bash cartodb && \
   apt-get install -y -q \
@@ -181,7 +183,7 @@ RUN git clone git://github.com/CartoDB/Windshaft-cartodb.git && \
     mkdir logs
 
 # Install CartoDB
-RUN git clone --recursive git://github.com/CartoDB/cartodb.git && \
+RUN git clone --branch $CARTODB_VERSION --recursive git://github.com/CartoDB/cartodb.git && \
     cd cartodb && \
     git checkout $CARTODB_VERSION && \
     # Install cartodb extension

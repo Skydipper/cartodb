@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+    cartodb:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                - CARTO_USERNAME=soils
+                - CARTO_USEREMAIL=test@vizzuality.com
+                - CARTO_PASSWORD=pass1234
+                - ORGANIZATION=vizzuality
+        hostname: 'cartodb.localhost'
+        ports:
+            - "80:80"
+        container_name: soils-cartodb
+        volumes:
+            - db-data:/var/lib/postgresql:Z
+
+volumes:
+    db-data:
