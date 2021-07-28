@@ -7,8 +7,11 @@ perl -pi -e 's/cartodb\.localhost/$ENV{"CARTO_HOSTNAME"}/g' /etc/nginx/nginx.con
 PGDATA=/var/lib/postgresql
 if [ "$(stat -c %U $PGDATA)" != "postgres" ]; then
 (>&2 echo "${PGDATA} not owned by postgres, updating permissions")
+if [ -d  "/var/lib/postgresql/10/main" ]; then
+  mkdir -R /var/lib/postgresql/10/main
+fi
 chown -R postgres $PGDATA
-chmod 700 $PGDATA
+chmod 700 -R $PGDATA
 fi
 
 service postgresql start
