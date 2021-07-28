@@ -55,7 +55,7 @@ node {
             sh("kubectl config use-context gke_${GCLOUD_PROJECT}_${GCLOUD_GCE_ZONE}_${KUBE_PROD_CLUSTER}")
             def service = sh([returnStdout: true, script: "kubectl get deploy ${appName} || echo NotFound"]).trim()
             sh("kubectl apply -f k8s/production/")
-            sh(" kubectl expose deployment cartodb --port=80 --target-port=80 --name=cartodb --type=LoadBalancer --external-ip=35.233.41.65")
+//             sh("kubectl expose deployment cartodb --port=80 --target-port=80 --name=cartodb --type=LoadBalancer --external-ip=35.233.41.65")
             sh("kubectl set image deployment ${appName} ${appName}=${imageTag} --record")
           } else {
             sh("echo NOT DEPLOYED")
