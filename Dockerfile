@@ -149,7 +149,7 @@ RUN sed -i 's/\(peer\|md5\)/trust/' /etc/postgresql/10/main/pg_hba.conf && \
 
 # Crankshaft: CARTO Spatial Analysis extension for PostgreSQL
 RUN cd / && \
-    curl https://bootstrap.pypa.io/get-pip.py | python && \
+    curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python && \
     git clone https://github.com/CartoDB/crankshaft.git && \
     cd /crankshaft && \
     git checkout $CRANKSHAFT_VERSION && \
