@@ -14,13 +14,35 @@ spec:
       labels:
         name: cartodb
     spec:
+      volumes:
+        - name: cartodb-storage
+          persistentVolumeClaim:
+            claimName: cartodb-storage-pvc
       containers:
-      - name: {name}
-        image: skydipper/{name}
+      - name: cartodb
+        image: skydipper/cartodb
         imagePullPolicy: Always
         ports:
           - containerPort: 80
         env:
           - name: HOSTNAME
             value: '35.233.41.65'
+        volumeMounts:
+          - name: cartodb-storage
+            mountPath: /var/lib/postgresql
       restartPolicy: Always
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cartodb-storage-pvc
+  annotations:
+    volume.beta.kubernetes.io/storage-class: standard
+  labels:
+    app: cartodb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
